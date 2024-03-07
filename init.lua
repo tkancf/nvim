@@ -20,29 +20,22 @@ vim.opt.clipboard:append{'unnamedplus'}
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath('cache') .. '/undo'
 
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- remap
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", {noremap = true})
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.api.nvim_set_keymap('n', ':', ';', {noremap = true})
+vim.api.nvim_set_keymap('n', ';', ':', {noremap = true})
 vim.api.nvim_set_keymap('n', 'j', 'gj', {noremap = true})
 vim.api.nvim_set_keymap('n', 'k', 'gk', {noremap = true})
 vim.api.nvim_set_keymap('n', 'gj', 'j', {noremap = true})
 vim.api.nvim_set_keymap('n', 'gk', 'k', {noremap = true})
-vim.api.nvim_set_keymap('n', '<Enter><Enter>', ':<C-u>w<CR>', {noremap = true})
+-- vim.api.nvim_set_keymap('n', '<Enter><Enter>', ':<C-u>w<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<Esc><Esc>', ':nohl<CR>', { noremap = true, silent = true})
 
--- Plugin
--- lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
+-- load lazy.nvim
+require('lazy_nvim')
