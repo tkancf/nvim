@@ -39,3 +39,5 @@ vim.api.nvim_set_keymap('n', '<Esc><Esc>', ':nohl<CR>', { noremap = true, silent
 
 -- load lazy.nvim
 require('lazy_nvim')
+require('inserttime')
+
