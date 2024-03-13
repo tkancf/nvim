@@ -81,5 +81,11 @@ require("lazy").setup({
             vim.keymap.set('n', '<leader><leader>b', builtin.buffers, {})
             vim.keymap.set('n', '<leader><leader>h', builtin.help_tags, {})
         end
+    },
+    -- markdown preview
+    {
+        'kat0h/bufpreview.vim',
+        dependencies = { 'vim-denops/denops.vim' },
+        build = 'deno task prepare'
     }
 })
