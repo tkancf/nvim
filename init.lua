@@ -76,24 +76,8 @@ require("lazy").setup({
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             local builtin = require('telescope.builtin')
-            -- vim.keymap.set('n', '<leader><leader>f', builtin.find_files, {})
-            -- vim.keymap.set('n', '<leader><leader>g', builtin.live_grep, {})
-            -- vim.keymap.set('n', '<leader><leader>b', builtin.buffers, {})
-            -- vim.keymap.set('n', '<leader><leader>h', builtin.help_tags, {})
         end
     },
-    -- zettelkasten
-    {
-        'renerocksai/telekasten.nvim',
-        dependencies = { 'nvim-telescope/telescope.nvim' },
-        config = function()
-            -- home = vim.fn.expand("~/memo")
-            require('telekasten').setup({
-                home = vim.fn.expand("~/memo"), -- Put the name of your notes directory here
-            })
-        end
-    },
-    -- markdown preview
     {
         'kat0h/bufpreview.vim',
         dependencies = { 'vim-denops/denops.vim' },
@@ -122,20 +106,6 @@ require("lazy").setup({
                         b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
                         h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help Tags" },
                         u = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent Files" },
-                    },
-                    -- telekasten
-                    t = {
-                        name = "telekasten",
-                        p = { "<cmd>lua require('telekasten').panel()<cr>", "Telekasten panel" },
-                        f = { "<cmd>lua require('telekasten').find_notes()<cr>", "Telekasten find_notes" },
-                        g = { "<cmd>lua require('telekasten').search_notes()<cr>", "Telekasten search_notes" },
-                        d = { "<cmd>lua require('telekasten').goto_today()<cr>", "Telekasten goto_today" },
-                        t = { "<cmd>lua require('telekasten').follow_link()<cr>", "Telekasten follow_link" },
-                        n = { "<cmd>lua require('telekasten').new_note()<cr>", "Telekasten new_note" },
-                        c = { "<cmd>lua require('telekasten').show_calendar()<cr>", "Telekasten show_calendar" },
-                        b = { "<cmd>lua require('telekasten').show_backlinks()<cr>", "Telekasten show_backlinks" },
-                        I = { "<cmd>lua require('telekasten').insert_img_link()<cr>", "Telekasten insert_img_link" },
-                        i = { "<cmd>lua require('telekasten').insert_link()<cr>", "Telekasten insert_link" },
                     },
                 }
             })
