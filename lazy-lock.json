@@ -2,10 +2,10 @@
   "bufpreview.vim": { "branch": "master", "commit": "9b3df1e6f508a6df6951b6bc5353e8f822a0c186" },
   "denops.vim": { "branch": "main", "commit": "b5dfcbc249a7559cbdc08ba1b7dc1cd92dec6d98" },
   "lazy.nvim": { "branch": "main", "commit": "83493db50a434a4c5c648faf41e2ead80f96e478" },
+  "neorg": { "branch": "main", "commit": "086891d396ac9fccd91faf1520f563b6eb9eb942" },
   "nvim-treesitter": { "branch": "master", "commit": "3ae78f376c2e721ce4feb23e9a5e8bc6062a2657" },
   "onedark": { "branch": "main", "commit": "e4fc3641aa3b52e30496bf34b87f70ef5506686e" },
   "plenary.nvim": { "branch": "master", "commit": "f7adfc4b3f4f91aab6caebf42b3682945fbc35be" },
-  "telekasten.nvim": { "branch": "main", "commit": "a684d6ebe7026944b0a5323219d5f5364511e5b2" },
   "telescope.nvim": { "branch": "master", "commit": "b323abeb4baf9e4851c3af1961e770ce76c657c7" },
   "todo.txt-vim": { "branch": "master", "commit": "ed9d639de2e34eafb82f2682010ab361966ee40f" },
   "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" }
