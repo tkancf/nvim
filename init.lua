@@ -72,7 +72,7 @@ require("lazy").setup({
     -- launcher
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.5',
+        -- tag = '0.1.5',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             local builtin = require('telescope.builtin')
@@ -82,10 +82,21 @@ require("lazy").setup({
             vim.keymap.set('n', '<leader><leader>h', builtin.help_tags, {})
         end
     },
+    -- zettelkasten
+    {
+        'renerocksai/telekasten.nvim',
+        dependencies = { 'nvim-telescope/telescope.nvim' },
+        config = function()
+            -- home = vim.fn.expand("~/memo")
+            require('telekasten').setup({
+                home = vim.fn.expand("~/memo"), -- Put the name of your notes directory here
+            })
+        end
+    },
     -- markdown preview
     {
         'kat0h/bufpreview.vim',
         dependencies = { 'vim-denops/denops.vim' },
         build = 'deno task prepare'
-    }
+    },
 })
