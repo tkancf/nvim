@@ -2,8 +2,7 @@
 -- encoding
 vim.o.encofing = 'utf-8'
 vim.scriptencoding = 'utf-8'
--- cicaフォント入れておけばdoubleじゃなくて良さそう
--- vim.o.ambiwidth = 'double'
+vim.o.ambiwidth = 'double'
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
@@ -171,44 +170,82 @@ require("lazy").setup({
             }
         end
     },
+    -- {
+    --     "nvim-neorg/neorg",
+    --     build = ":Neorg sync-parsers",
+    --     lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
+    --     -- tag = "*",
+    --     dependencies = { { "nvim-lua/plenary.nvim" }, { "nvim-neorg/neorg-telescope" } },
+    --     config = function()
+    --         require("neorg").setup {
+    --             load = {
+    --                 ["core.defaults"] = {},  -- Loads default behaviour
+    --                 ["core.concealer"] = {}, -- Adds pretty icons to your documents
+    --                 -- ["core.ui.calendar"] = {},
+    --                 ["core.journal"] = {
+    --                     -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
+    --                     config = {
+    --                         strategy = "flat",
+    --                     },
+    --                 },
+    --                 ["core.dirman"] = { -- Manages Neorg workspaces
+    --                     config = {
+    --                         workspaces = {
+    --                             notes = "~/notes",
+    --                         },
+    --                         default_workspace = "notes",
+    --                     },
+    --                 },
+    --                 ["core.integrations.telescope"] = {},
+    --                 ["core.completion"] = {
+    --                     config = {
+    --                         engine = "nvim-cmp",
+    --                     },
+    --                 },
+    --                 ["core.summary"] = {
+    --                     config = {
+    --                         strategy = "by_path",
+    --                     },
+    --                 },
+    --             },
+    --         }
+    --     end,
+    -- },
     {
-        "nvim-neorg/neorg",
-        build = ":Neorg sync-parsers",
-        lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
-        -- tag = "*",
-        dependencies = { { "nvim-lua/plenary.nvim" }, { "nvim-neorg/neorg-telescope" } },
+        'nvim-orgmode/orgmode',
+        dependencies = {
+            { 'nvim-treesitter/nvim-treesitter', lazy = true },
+        },
+        event = 'VeryLazy',
         config = function()
-            require("neorg").setup {
-                load = {
-                    ["core.defaults"] = {},  -- Loads default behaviour
-                    ["core.concealer"] = {}, -- Adds pretty icons to your documents
-                    ["core.journal"] = {
-                        -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
-                        config = {
-                            strategy = "flat",
-                        },
-                    },
-                    ["core.dirman"] = { -- Manages Neorg workspaces
-                        config = {
-                            workspaces = {
-                                notes = "~/notes",
-                            },
-                            default_workspace = "notes",
-                        },
-                    },
-                    ["core.integrations.telescope"] = {},
-                    ["core.completion"] = {
-                        config = {
-                            engine = "nvim-cmp",
-                        },
-                    },
-                    ["core.summary"] = {
-                        config = {
-                            strategy = "by_path",
-                        },
-                    },
+            -- Load treesitter grammar for org
+            require('orgmode').setup_ts_grammar()
+            -- Setup treesitter
+            require('nvim-treesitter.configs').setup({
+                highlight = {
+                    enable = true,
                 },
-            }
+                ensure_installed = { 'org' },
+            })
+            -- Setup orgmode
+            require('orgmode').setup({
+                org_agenda_files = '~/org/**/*',
+                org_default_notes_file = '~/org/refile.org',
+            })
+        end,
+    },
+    {
+        "lyz-code/telescope-orgmode.nvim",
+        event = "VeryLazy",
+        dependencies = {
+            "nvim-orgmode/orgmode",
+            "nvim-telescope/telescope.nvim",
+        },
+        config = function()
+            require("telescope").load_extension("orgmode")
+
+            vim.keymap.set("n", "<leader>r", require("telescope").extensions.orgmode.refile_heading)
+            vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
         end,
     },
 })
