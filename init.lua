@@ -176,9 +176,6 @@ require("lazy").setup({
         lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
         -- tag = "*",
         dependencies = { { "nvim-lua/plenary.nvim" }, { "nvim-neorg/neorg-telescope" } },
-        requires = {
-            { 'phenax/neorg-timelog' },
-        },
         config = function()
             require("neorg").setup {
                 load = {
@@ -214,38 +211,8 @@ require("lazy").setup({
                             strategy = "by_path",
                         },
                     },
-                    ['external.timelog'] = {
-                        config = {
-                            time_format = '%Y-%m-%d %H:%M:%S', -- Default config
-                        }
-                    },
                 },
             }
-        end,
-    },
-    {
-        'nvim-orgmode/orgmode',
-        dependencies = {
-            { 'nvim-treesitter/nvim-treesitter', lazy = true },
-        },
-        event = 'VeryLazy',
-        config = function()
-            -- Load treesitter grammar for org
-            require('orgmode').setup_ts_grammar()
-
-            -- Setup treesitter
-            require('nvim-treesitter.configs').setup({
-                highlight = {
-                    enable = true,
-                },
-                ensure_installed = { 'norg' },
-            })
-
-            -- Setup orgmode
-            require('orgmode').setup({
-                org_agenda_files = '~/notes/**/*',
-                org_default_notes_file = '~/notes/refile.norg',
-            })
         end,
     },
 })
