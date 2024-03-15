@@ -158,7 +158,7 @@ require("lazy").setup({
             local cmp = require 'cmp'
             cmp.setup {
                 sources = {
-                    { name = "neorg" },
+                    { name = "orgmode" },
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -170,47 +170,47 @@ require("lazy").setup({
             }
         end
     },
-    -- {
-    --     "nvim-neorg/neorg",
-    --     build = ":Neorg sync-parsers",
-    --     lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
-    --     -- tag = "*",
-    --     dependencies = { { "nvim-lua/plenary.nvim" }, { "nvim-neorg/neorg-telescope" } },
-    --     config = function()
-    --         require("neorg").setup {
-    --             load = {
-    --                 ["core.defaults"] = {},  -- Loads default behaviour
-    --                 ["core.concealer"] = {}, -- Adds pretty icons to your documents
-    --                 -- ["core.ui.calendar"] = {},
-    --                 ["core.journal"] = {
-    --                     -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
-    --                     config = {
-    --                         strategy = "flat",
-    --                     },
-    --                 },
-    --                 ["core.dirman"] = { -- Manages Neorg workspaces
-    --                     config = {
-    --                         workspaces = {
-    --                             notes = "~/notes",
-    --                         },
-    --                         default_workspace = "notes",
-    --                     },
-    --                 },
-    --                 ["core.integrations.telescope"] = {},
-    --                 ["core.completion"] = {
-    --                     config = {
-    --                         engine = "nvim-cmp",
-    --                     },
-    --                 },
-    --                 ["core.summary"] = {
-    --                     config = {
-    --                         strategy = "by_path",
-    --                     },
-    --                 },
-    --             },
-    --         }
-    --     end,
-    -- },
+    --{
+    --    "nvim-neorg/neorg",
+    --    build = ":Neorg sync-parsers",
+    --    lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
+    --    -- tag = "*",
+    --    dependencies = { { "nvim-lua/plenary.nvim" }, { "nvim-neorg/neorg-telescope" } },
+    --    config = function()
+    --        require("neorg").setup {
+    --            load = {
+    --                ["core.defaults"] = {},  -- Loads default behaviour
+    --                ["core.concealer"] = {}, -- Adds pretty icons to your documents
+    --                -- ["core.ui.calendar"] = {},
+    --                ["core.journal"] = {
+    --                    -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
+    --                    config = {
+    --                        strategy = "flat",
+    --                    },
+    --                },
+    --                ["core.dirman"] = { -- Manages Neorg workspaces
+    --                    config = {
+    --                        workspaces = {
+    --                            notes = "~/notes",
+    --                        },
+    --                        default_workspace = "notes",
+    --                    },
+    --                },
+    --                ["core.integrations.telescope"] = {},
+    --                ["core.completion"] = {
+    --                    config = {
+    --                        engine = "nvim-cmp",
+    --                    },
+    --                },
+    --                ["core.summary"] = {
+    --                    config = {
+    --                        strategy = "by_path",
+    --                    },
+    --                },
+    --            },
+    --        }
+    --    end,
+    --},
     {
         'nvim-orgmode/orgmode',
         dependencies = {
@@ -247,5 +247,5 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>r", require("telescope").extensions.orgmode.refile_heading)
             vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
         end,
-    },
+    }
 })
