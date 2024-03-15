@@ -182,11 +182,6 @@ require("lazy").setup({
                 load = {
                     ["core.defaults"] = {},  -- Loads default behaviour
                     ["core.concealer"] = {}, -- Adds pretty icons to your documents
-                    ["core.ui"] = {
-                        config = {
-                            calendar = true,
-                        }
-                    },
                     ["core.journal"] = {
                         -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
                         config = {
