@@ -177,6 +177,8 @@ require("lazy").setup({
                         end,
                     },
                 },
+                vim.api.nvim_set_keymap('n', '-', '<cmd>Neotree toggle<cr>',
+                    { noremap = true, silent = true })
             })
         end
     }
