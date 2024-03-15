@@ -26,8 +26,8 @@ vim.g.loaded_netrwPlugin = 1
 
 -- remap
 vim.g.mapleader = " "
-vim.g.maplocalleader = ','
 vim.api.nvim_set_keymap('n', 's', '', { noremap = true })
+vim.g.maplocalleader = 's'
 vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true })
 vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = true })
 vim.api.nvim_set_keymap('n', 'gj', 'j', { noremap = true })
@@ -137,6 +137,11 @@ require("lazy").setup({
                         },
                     },
                     ["core.integrations.telescope"] = {},
+                    ["core.completion"] = {
+                        config = {
+                            engine = "nvim-cmp",
+                        },
+                    },
                 },
             }
         end,
@@ -180,6 +185,24 @@ require("lazy").setup({
                 vim.api.nvim_set_keymap('n', '-', '<cmd>Neotree toggle<cr>',
                     { noremap = true, silent = true })
             })
+        end
+    },
+    {
+        'hrsh7th/nvim-cmp',
+        config = function()
+            local cmp = require 'cmp'
+            cmp.setup {
+                sources = {
+                    { name = "neorg" },
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ['<C-e>'] = cmp.mapping.abort(),
+                    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                }),
+            }
         end
     }
 
