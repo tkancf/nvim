@@ -110,28 +110,75 @@ require("lazy").setup({
                 }
             })
         end
-
     },
     {
         "nvim-neorg/neorg",
         build = ":Neorg sync-parsers",
         lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
         -- tag = "*",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        dependencies = { { "nvim-lua/plenary.nvim" }, { "nvim-neorg/neorg-telescope" } },
         config = function()
             require("neorg").setup {
                 load = {
                     ["core.defaults"] = {},  -- Loads default behaviour
                     ["core.concealer"] = {}, -- Adds pretty icons to your documents
-                    ["core.dirman"] = {      -- Manages Neorg workspaces
+                    ["core.journal"] = {
+                        -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
+                        config = {
+                            strategy = "flat",
+                        },
+                    },
+                    ["core.dirman"] = { -- Manages Neorg workspaces
                         config = {
                             workspaces = {
                                 notes = "~/notes",
                             },
+                            default_workspace = "notes",
                         },
                     },
+                    ["core.integrations.telescope"] = {},
                 },
             }
         end,
     },
+    {
+        'adelarsq/image_preview.nvim',
+        event = 'VeryLazy',
+        config = function()
+            require("image_preview").setup()
+            vim.api.nvim_set_keymap('n', '<leader>p',
+                '<cmd>lua require("image_preview").PreviewImage(vim.fn.expand("<cfile>"))<cr>',
+                { noremap = true, silent = true })
+        end
+    },
+    {
+        -- neotree
+        'nvim-neo-tree/neo-tree.nvim',
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+            -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+        },
+        config = function()
+            require("neo-tree").setup({
+                filesystem = {
+                    window = {
+                        mappings = {
+                            ["<leader>p"] = "image_wezterm", -- " or another map
+                        },
+                    },
+                    commands = {
+                        image_wezterm = function(state)
+                            local node = state.tree:get_node()
+                            if node.type == "file" then
+                                require("image_preview").PreviewImage(node.path)
+                            end
+                        end,
+                    },
+                },
+            })
+        end
+    }
+
 })
