@@ -6,6 +6,7 @@
   "neo-tree.nvim": { "branch": "main", "commit": "742db4e60c74e5fbcc596aaf9e7575e1342dfd09" },
   "neorg": { "branch": "main", "commit": "086891d396ac9fccd91faf1520f563b6eb9eb942" },
   "neorg-telescope": { "branch": "main", "commit": "418f8fd4bd7360d954613a2322b4eb2888ac3ad9" },
+  "neorg-timelog": { "branch": "main", "commit": "e26eb880168339568554c254aedff6b32d2d3227" },
   "nui.nvim": { "branch": "main", "commit": "3dc46d725f7b94bee5117c0a699b57b1902b5d65" },
   "nvim-cmp": { "branch": "main", "commit": "04e0ca376d6abdbfc8b52180f8ea236cbfddf782" },
   "nvim-treesitter": { "branch": "master", "commit": "904f373fc4e6fb474e3df35b57f78edee8e45267" },
