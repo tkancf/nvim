@@ -2,7 +2,8 @@
 -- encoding
 vim.o.encofing = 'utf-8'
 vim.scriptencoding = 'utf-8'
-vim.o.ambiwidth = 'double'
+-- cicaフォント入れておけばdoubleじゃなくて良さそう
+-- vim.o.ambiwidth = 'double'
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
