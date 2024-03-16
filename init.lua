@@ -75,9 +75,6 @@ require("lazy").setup({
         'nvim-telescope/telescope.nvim',
         -- tag = '0.1.5',
         dependencies = { 'nvim-lua/plenary.nvim' },
-        config = function()
-            local builtin = require('telescope.builtin')
-        end
     },
     {
         'kat0h/bufpreview.vim',
@@ -212,7 +209,6 @@ require("lazy").setup({
                             strategy = "flat",
                         },
                     },
-                    -- ['external.clock'] = {},
                 },
             }
             do
