@@ -53,8 +53,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- todo.txt
-    { "freitass/todo.txt-vim" },
     -- code highlight
     {
         "nvim-treesitter/nvim-treesitter",
