@@ -230,8 +230,44 @@ require("lazy").setup({
                 end
 
                 -- This can be bound to a key
-                vim.keymap.set('n', '<c-t>', function() get_todos('~/notes', '[^x_]') end)
+                vim.keymap.set('n', '<leader>ot', function() get_todos('~/notes', '[^x_]') end)
             end
+            
+            -- clock
+            local function append_formatted_datetime_with_newlines()
+                local datetime = os.date("%Y-%m-%d %H:%M:%S")
+                vim.cmd("normal! o@clock")
+                vim.cmd("normal! o" .. datetime .. " - ")
+                vim.cmd("normal! o@end")
+                vim.cmd("normal! kkk")
+            end
+
+            vim.api.nvim_set_keymap('n', '<C-t>', '',
+                { noremap = true, callback = append_formatted_datetime_with_newlines })
+            local function append_current_time_to_line_without_extra_chars()
+                -- 現在の日時をフォーマットする関数
+                local function format_current_time()
+                    return os.date("%Y-%m-%d %H:%M:%S")
+                end
+
+                -- カーソルのある行を取得
+                local line_number = vim.api.nvim_win_get_cursor(0)[1]
+                local line = vim.api.nvim_get_current_line()
+
+                -- パターンにマッチするかチェック（パターンはカスタマイズ可能です）
+                local pattern = "%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d"
+                if line:match(pattern) then
+                    -- 現在の日時を行の末尾に追記
+                    local new_line = line .. format_current_time()
+                    vim.api.nvim_set_current_line(new_line)
+                else
+                    print("現在の行は指定されたパターンにマッチしません。")
+                end
+            end
+
+            -- コマンドを作成し、Neovimのコマンドラインから実行可能にする
+            vim.api.nvim_create_user_command('AppendCurrentTimeNoChars', append_current_time_to_line_without_extra_chars,
+                {})
         end,
     },
 })
