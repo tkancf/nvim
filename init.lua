@@ -247,7 +247,18 @@ require("lazy").setup({
         build = ":Neorg sync-parsers",
         lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
         -- tag = "*",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            dir =
+            --"~/src/tkancf-neorg-module/lua/neorg/modules/external/hello-world/module.lua",
+            --"~/src/tkancf-neorg-module/lua/neorg/modules/external/hello-world/",
+            --"~/src/tkancf-neorg-module/lua/neorg/modules/external/",
+            --"~/src/tkancf-neorg-module/lua/neorg/modules/",
+            --"~/src/tkancf-neorg-module/lua/neorg/",
+            --"~/src/tkancf-neorg-module/lua/",
+            "~/src/tkancf-neorg-module/",
+            --"~/src/",
+        },
         config = function()
             require("neorg").setup {
                 load = {
@@ -266,8 +277,22 @@ require("lazy").setup({
                             strategy = "flat",
                         },
                     },
+                    -- ['external.clock'] = {},
                 },
             }
+            do
+                local _, neorg = pcall(require, "neorg.core")
+                local dirman = neorg.modules.get_module("core.dirman")
+                local function get_todos(dir, states)
+                    local current_workspace = dirman.get_current_workspace()
+                    local dir = current_workspace[2]
+                    require('telescope.builtin').live_grep { cwd = dir }
+                    vim.fn.feedkeys('^ *([*]+|[-]+) +[(]' .. states .. '[)]')
+                end
+
+                -- This can be bound to a key
+                vim.keymap.set('n', '<c-t>', function() get_todos('~/notes', '[^x_]') end)
+            end
         end,
     },
 })
