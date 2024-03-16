@@ -170,47 +170,9 @@ require("lazy").setup({
             }
         end
     },
-    --{
-    --    "nvim-neorg/neorg",
-    --    build = ":Neorg sync-parsers",
-    --    lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
-    --    -- tag = "*",
-    --    dependencies = { { "nvim-lua/plenary.nvim" }, { "nvim-neorg/neorg-telescope" } },
-    --    config = function()
-    --        require("neorg").setup {
-    --            load = {
-    --                ["core.defaults"] = {},  -- Loads default behaviour
-    --                ["core.concealer"] = {}, -- Adds pretty icons to your documents
-    --                -- ["core.ui.calendar"] = {},
-    --                ["core.journal"] = {
-    --                    -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
-    --                    config = {
-    --                        strategy = "flat",
-    --                    },
-    --                },
-    --                ["core.dirman"] = { -- Manages Neorg workspaces
-    --                    config = {
-    --                        workspaces = {
-    --                            notes = "~/notes",
-    --                        },
-    --                        default_workspace = "notes",
-    --                    },
-    --                },
-    --                ["core.integrations.telescope"] = {},
-    --                ["core.completion"] = {
-    --                    config = {
-    --                        engine = "nvim-cmp",
-    --                    },
-    --                },
-    --                ["core.summary"] = {
-    --                    config = {
-    --                        strategy = "by_path",
-    --                    },
-    --                },
-    --            },
-    --        }
-    --    end,
-    --},
+    {
+        'pocco81/auto-save.nvim',
+    },
     {
         'nvim-orgmode/orgmode',
         dependencies = {
@@ -230,7 +192,14 @@ require("lazy").setup({
             -- Setup orgmode
             require('orgmode').setup({
                 org_agenda_files = '~/org/**/*',
-                org_default_notes_file = '~/org/refile.org',
+                org_default_notes_file = '~/org/journal.org',
+                org_capture_templates = {
+                    j = {
+                        description = 'Journal',
+                        template = '* %<%Y-%m-%d>\n** %U\n\n%?',
+                        target = '~/org/journal.org'
+                    },
+                }
             })
             -- conceal link
             -- vim.opt.conceallevel = 2
@@ -271,5 +240,27 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>r", require("telescope").extensions.orgmode.refile_heading)
             vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
         end,
-    }
+    },
+    {
+        "nvim-neorg/neorg",
+        build = ":Neorg sync-parsers",
+        lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
+        -- tag = "*",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            require("neorg").setup {
+                load = {
+                    ["core.defaults"] = {}, -- Loads default behaviour
+                    ["core.concealer"] = {}, -- Adds pretty icons to your documents
+                    ["core.dirman"] = { -- Manages Neorg workspaces
+                        config = {
+                            workspaces = {
+                                notes = "~/notes",
+                            },
+                        },
+                    },
+                },
+            }
+        end,
+    },
 })

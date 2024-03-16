@@ -1,4 +1,5 @@
 {
+  "auto-save.nvim": { "branch": "main", "commit": "979b6c82f60cfa80f4cf437d77446d0ded0addf0" },
   "bufpreview.vim": { "branch": "master", "commit": "9b3df1e6f508a6df6951b6bc5353e8f822a0c186" },
   "denops.vim": { "branch": "main", "commit": "b5dfcbc249a7559cbdc08ba1b7dc1cd92dec6d98" },
   "image_preview.nvim": { "branch": "main", "commit": "61322c28bc96794225bbb38fc7118908d92184d1" },
@@ -10,7 +11,6 @@
   "nvim-web-devicons": { "branch": "master", "commit": "a851380fbea4c1312d11f13d5cdc86a7a19808dd" },
   "onedark": { "branch": "main", "commit": "e4fc3641aa3b52e30496bf34b87f70ef5506686e" },
   "org-bullets.nvim": { "branch": "main", "commit": "3623e86e0fa6d07f45042f7207fc333c014bf167" },
-  "orgWiki.nvim": { "branch": "main", "commit": "ea3e467bef7a2c17998bc471844bbd7bd3438f84" },
   "orgmode": { "branch": "master", "commit": "261c987345131a736066c25ea409f4d10904b0af" },
   "plenary.nvim": { "branch": "master", "commit": "f7adfc4b3f4f91aab6caebf42b3682945fbc35be" },
   "telescope-orgmode.nvim": { "branch": "main", "commit": "d70432192deb51d61aba253688b057d51a5d9ac4" },
