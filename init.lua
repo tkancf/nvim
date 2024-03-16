@@ -286,7 +286,15 @@ require("lazy").setup({
                 local function get_todos(dir, states)
                     local current_workspace = dirman.get_current_workspace()
                     local dir = current_workspace[2]
-                    require('telescope.builtin').live_grep { cwd = dir }
+                    local pattern = "-"
+                    -- Add vimgrep_arguments to exclude template.norg files
+                    require('telescope.builtin').live_grep {
+                        cwd = dir,
+                        vimgrep_arguments = {
+                            'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case',
+                            '-g', '!template.norg',
+                        }
+                    }
                     vim.fn.feedkeys('^ *([*]+|[-]+) +[(]' .. states .. '[)]')
                 end
 
