@@ -95,7 +95,9 @@ require("lazy").setup({
             local wk = require("which-key")
             local _, neorg = pcall(require, "neorg.core")
             local dirman = neorg.modules.get_module("core.dirman")
-            local function get_todos(dir, states)
+
+            -- get task lists
+            local function get_task_lists(dir, states)
                 local current_workspace = dirman.get_current_workspace()
                 local dir = current_workspace[2]
                 local pattern = "-"
@@ -109,12 +111,35 @@ require("lazy").setup({
                 }
                 vim.fn.feedkeys('^ *([*]+|[-]+) +[(]' .. states .. '[)]')
             end
-
-            -- This can be bound to a key
-            -- vim.keymap.set('n', '<leader>ot', function() get_todos('~/notes', '[^x_]') end)
-            vim.api.nvim_create_user_command('GetTodos', function()
-                get_todos('~/notes', '[^x_]')
+            vim.api.nvim_create_user_command('GetTaskLists', function()
+                get_task_lists('~/notes', '[^x_]')
             end, {})
+
+            -- get task lists
+            local function get_todos(dir, states)
+                local current_workspace = dirman.get_current_workspace()
+                local dir = current_workspace[2]
+                local pattern = "-"
+                -- Add vimgrep_arguments to exclude template.norg files
+                require('telescope.builtin').live_grep {
+                    cwd = dir,
+                    vimgrep_arguments = {
+                        'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case',
+                        '-g', '!template.norg',
+                    }
+                }
+                vim.fn.feedkeys('^*+ ' .. states .. ' ')
+            end
+            vim.api.nvim_create_user_command('GetToDo', function()
+                get_todos('~/notes', 'TODO')
+            end, {})
+            vim.api.nvim_create_user_command('GetTodoDone', function()
+                get_todos('~/notes', 'DONE')
+            end, {})
+            vim.api.nvim_create_user_command('GetTodoWip', function()
+                get_todos('~/notes', 'WIP')
+            end, {})
+
             wk.register({
                 ["<leader>"] = {
                     ["<leader>"] = {
@@ -137,8 +162,13 @@ require("lazy").setup({
                             l = { "<cmd>Neorg mode traverse-link<cr>", "traverse-link mode" },
                         },
                         i = { "<cmd>Neorg toc<cr>", "Neorg TOC" },
-                        -- vim.keymap.set('n', '<leader>ot', function() get_todos('~/notes', '[^x_]') end)
-                        t = { "<cmd>GetTodos<cr>", "Neorg TODOs" },
+                        l = { "<cmd>GetTaskLists<cr>", "Neorg Task Lists" },
+                        g = {
+                            name = "neorg Get Todo",
+                            t = { "<cmd>GetToDo<cr>", "Neorg ToDo" },
+                            d = { "<cmd>GetTodoDone<cr>", "Neorg ToDo Done" },
+                            w = { "<cmd>GetTodoWip<cr>", "Neorg ToDo WIP" },
+                        },
                     },
                 }
             })
