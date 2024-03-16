@@ -239,22 +239,22 @@ require("lazy").setup({
                 end
 
                 local line = vim.api.nvim_get_current_line()
-                local start_pattern = "%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d - "
-                local end_pattern = "^%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d - %d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d$"
+                local start_pattern = "%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d %- $"
+                local end_pattern = "%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d %- %d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d"
                 if line:match(end_pattern) then -- 終了時刻がまだ記載されていない場合
-                    print("end_pattern!!")
-                end
-                if line:match(start_pattern) then
-                    -- 開始時刻のフォーマットにマッチする場合、終了時刻を追記
-                    local new_line = line .. format_current_time()
-                    vim.api.nvim_set_current_line(new_line)
-                else
-                    -- 開始時刻のフォーマットにマッチしない場合、新しい時刻記録ブロックを挿入
                     local datetime = format_current_time()
-                    vim.cmd("normal! o@end")
-                    vim.cmd("normal! O" .. datetime .. " - ")
-                    vim.cmd("normal! O@clock")
-                    vim.cmd("normal! j")
+                    vim.cmd("normal! o" .. datetime .. " - ")
+                else
+                    if line:match(start_pattern) then -- 開始時刻のフォーマットにマッチする場合、終了時刻を追記
+                        local new_line = line .. format_current_time()
+                        vim.api.nvim_set_current_line(new_line)
+                    else -- 時刻のフォーマットにマッチしない場合、新しい時刻記録ブロックを挿入
+                        local datetime = format_current_time()
+                        vim.cmd("normal! o@end")
+                        vim.cmd("normal! O" .. datetime .. " - ")
+                        vim.cmd("normal! O@clock")
+                        vim.cmd("normal! j")
+                    end
                 end
             end
 
