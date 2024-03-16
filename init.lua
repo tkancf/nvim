@@ -232,42 +232,33 @@ require("lazy").setup({
                 -- This can be bound to a key
                 vim.keymap.set('n', '<leader>ot', function() get_todos('~/notes', '[^x_]') end)
             end
-            
-            -- clock
-            local function append_formatted_datetime_with_newlines()
-                local datetime = os.date("%Y-%m-%d %H:%M:%S")
-                vim.cmd("normal! o@clock")
-                vim.cmd("normal! o" .. datetime .. " - ")
-                vim.cmd("normal! o@end")
-                vim.cmd("normal! kkk")
-            end
 
-            vim.api.nvim_set_keymap('n', '<C-t>', '',
-                { noremap = true, callback = append_formatted_datetime_with_newlines })
-            local function append_current_time_to_line_without_extra_chars()
-                -- 現在の日時をフォーマットする関数
+            local function handle_clock_insertion()
                 local function format_current_time()
                     return os.date("%Y-%m-%d %H:%M:%S")
                 end
 
-                -- カーソルのある行を取得
-                local line_number = vim.api.nvim_win_get_cursor(0)[1]
                 local line = vim.api.nvim_get_current_line()
-
-                -- パターンにマッチするかチェック（パターンはカスタマイズ可能です）
-                local pattern = "%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d"
-                if line:match(pattern) then
-                    -- 現在の日時を行の末尾に追記
+                local start_pattern = "%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d - "
+                local end_pattern = "^%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d - %d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d$"
+                if line:match(end_pattern) then -- 終了時刻がまだ記載されていない場合
+                    print("end_pattern!!")
+                end
+                if line:match(start_pattern) then
+                    -- 開始時刻のフォーマットにマッチする場合、終了時刻を追記
                     local new_line = line .. format_current_time()
                     vim.api.nvim_set_current_line(new_line)
                 else
-                    print("現在の行は指定されたパターンにマッチしません。")
+                    -- 開始時刻のフォーマットにマッチしない場合、新しい時刻記録ブロックを挿入
+                    local datetime = format_current_time()
+                    vim.cmd("normal! o@end")
+                    vim.cmd("normal! O" .. datetime .. " - ")
+                    vim.cmd("normal! O@clock")
+                    vim.cmd("normal! j")
                 end
             end
 
-            -- コマンドを作成し、Neovimのコマンドラインから実行可能にする
-            vim.api.nvim_create_user_command('AppendCurrentTimeNoChars', append_current_time_to_line_without_extra_chars,
-                {})
+            vim.api.nvim_set_keymap('n', '<C-t>', '', { noremap = true, callback = handle_clock_insertion })
         end,
     },
 })
