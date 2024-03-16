@@ -93,6 +93,28 @@ require("lazy").setup({
         },
         config = function()
             local wk = require("which-key")
+            local _, neorg = pcall(require, "neorg.core")
+            local dirman = neorg.modules.get_module("core.dirman")
+            local function get_todos(dir, states)
+                local current_workspace = dirman.get_current_workspace()
+                local dir = current_workspace[2]
+                local pattern = "-"
+                -- Add vimgrep_arguments to exclude template.norg files
+                require('telescope.builtin').live_grep {
+                    cwd = dir,
+                    vimgrep_arguments = {
+                        'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case',
+                        '-g', '!template.norg',
+                    }
+                }
+                vim.fn.feedkeys('^ *([*]+|[-]+) +[(]' .. states .. '[)]')
+            end
+
+            -- This can be bound to a key
+            -- vim.keymap.set('n', '<leader>ot', function() get_todos('~/notes', '[^x_]') end)
+            vim.api.nvim_create_user_command('GetTodos', function()
+                get_todos('~/notes', '[^x_]')
+            end, {})
             wk.register({
                 ["<leader>"] = {
                     ["<leader>"] = {
@@ -114,7 +136,9 @@ require("lazy").setup({
                             h = { "<cmd>Neorg mode traverse-heading<cr>", "traverse-heading mode" },
                             l = { "<cmd>Neorg mode traverse-link<cr>", "traverse-link mode" },
                         },
-                        I = { "<cmd>Neorg toc<cr>", "Neorg TOC" },
+                        i = { "<cmd>Neorg toc<cr>", "Neorg TOC" },
+                        -- vim.keymap.set('n', '<leader>ot', function() get_todos('~/notes', '[^x_]') end)
+                        t = { "<cmd>GetTodos<cr>", "Neorg TODOs" },
                     },
                 }
             })
@@ -207,29 +231,23 @@ require("lazy").setup({
                             strategy = "flat",
                         },
                     },
+                    ["core.summary"] = {
+                        config = {
+                            strategy = "by_path",
+                        },
+                    },
+                    ["core.export"] = {
+                        config = {
+                            export_dir = "export",
+                        },
+                    },
+                    ["core.export.markdown"] = {
+                        config = {
+                            extensions = "all",
+                        },
+                    },
                 },
             }
-            do
-                local _, neorg = pcall(require, "neorg.core")
-                local dirman = neorg.modules.get_module("core.dirman")
-                local function get_todos(dir, states)
-                    local current_workspace = dirman.get_current_workspace()
-                    local dir = current_workspace[2]
-                    local pattern = "-"
-                    -- Add vimgrep_arguments to exclude template.norg files
-                    require('telescope.builtin').live_grep {
-                        cwd = dir,
-                        vimgrep_arguments = {
-                            'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case',
-                            '-g', '!template.norg',
-                        }
-                    }
-                    vim.fn.feedkeys('^ *([*]+|[-]+) +[(]' .. states .. '[)]')
-                end
-
-                -- This can be bound to a key
-                vim.keymap.set('n', '<leader>ot', function() get_todos('~/notes', '[^x_]') end)
-            end
         end,
     },
 })
