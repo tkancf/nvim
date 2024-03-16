@@ -128,7 +128,7 @@ require("lazy").setup({
                         '-g', '!template.norg',
                     }
                 }
-                vim.fn.feedkeys('^*+ ' .. states .. ' ')
+                vim.fn.feedkeys('^\\*+ ' .. states .. ' ')
             end
             vim.api.nvim_create_user_command('GetToDo', function()
                 get_todos('~/notes', 'TODO')
