@@ -232,43 +232,8 @@ require("lazy").setup({
                 -- This can be bound to a key
                 vim.keymap.set('n', '<leader>ot', function() get_todos('~/notes', '[^x_]') end)
             end
-
-            local function format_current_time()
-                return os.date("%Y-%m-%d %H:%M:%S")
-            end
-
-            local function insert_new_clock_block(datetime)
-                vim.cmd("normal! o@end")
-                vim.cmd("normal! O" .. datetime .. " - ")
-                vim.cmd("normal! O@clock")
-                vim.cmd("normal! j")
-            end
-
-            local function update_current_line_with_end_time(line, datetime)
-                vim.api.nvim_set_current_line(line .. datetime)
-            end
-
-            local function insert_start_time_block(datetime)
-                vim.cmd("normal! o" .. datetime .. " - ")
-            end
-
-            local function handle_clock_insertion()
-                local line = vim.api.nvim_get_current_line()
-                local start_pattern = "%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d %- $"
-                local end_pattern = "%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d %- %d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d"
-                local datetime = format_current_time()
-
-                if line:match(end_pattern) then
-                    insert_start_time_block(datetime)
-                elseif line:match(start_pattern) then
-                    update_current_line_with_end_time(line, datetime)
-                else
-                    insert_new_clock_block(datetime)
-                end
-            end
-
-
-            vim.api.nvim_set_keymap('n', '<C-t>', '', { noremap = true, callback = handle_clock_insertion })
         end,
     },
 })
+
+require('clock')
