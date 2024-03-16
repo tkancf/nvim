@@ -2,7 +2,7 @@
 -- encoding
 vim.o.encofing = 'utf-8'
 vim.scriptencoding = 'utf-8'
-vim.o.ambiwidth = 'double'
+-- vim.o.ambiwidth = 'double'
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
@@ -158,7 +158,7 @@ require("lazy").setup({
             local cmp = require 'cmp'
             cmp.setup {
                 sources = {
-                    { name = "orgmode" },
+                    -- { name = "orgmode" },
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -170,77 +170,78 @@ require("lazy").setup({
             }
         end
     },
-    {
-        'pocco81/auto-save.nvim',
-    },
-    {
-        'nvim-orgmode/orgmode',
-        dependencies = {
-            { 'nvim-treesitter/nvim-treesitter', lazy = true },
-        },
-        event = 'VeryLazy',
-        config = function()
-            -- Load treesitter grammar for org
-            require('orgmode').setup_ts_grammar()
-            -- Setup treesitter
-            require('nvim-treesitter.configs').setup({
-                highlight = {
-                    enable = true,
-                },
-                ensure_installed = { 'org' },
-            })
-            -- Setup orgmode
-            require('orgmode').setup({
-                org_agenda_files = '~/org/**/*',
-                org_default_notes_file = '~/org/journal.org',
-                org_capture_templates = {
-                    j = {
-                        description = 'Journal',
-                        template = '* %<%Y-%m-%d>\n** %U\n\n%?',
-                        target = '~/org/journal.org'
-                    },
-                }
-            })
-            -- conceal link
-            -- vim.opt.conceallevel = 2
-            -- vim.opt.concealcursor = 'nc'
-        end,
-    },
-    {
-        'akinsho/org-bullets.nvim',
-        dependencies = { 'nvim-orgmode/orgmode' },
-        config = function()
-            require('org-bullets').setup({
-                concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
-                symbols = {
-                    -- list symbol
-                    list = "•",
-                    -- headlines can be a list
-                    headlines = { "◎", "○", "✸", "✜" },
-                    -- or a function that receives the defaults and returns a list
-                    checkboxes = {
-                        half = { "", "OrgTSCheckboxHalfChecked" },
-                        done = { "✓", "OrgDone" },
-                        todo = { "˟", "OrgTODO" },
-                    },
-                }
-            })
-        end
-    },
-    {
-        "lyz-code/telescope-orgmode.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            "nvim-orgmode/orgmode",
-            "nvim-telescope/telescope.nvim",
-        },
-        config = function()
-            require("telescope").load_extension("orgmode")
+    -- {
+    --     'pocco81/auto-save.nvim',
+    -- },
+    -- orgmode
+    -- {
+    --     'nvim-orgmode/orgmode',
+    --     dependencies = {
+    --         { 'nvim-treesitter/nvim-treesitter', lazy = true },
+    --     },
+    --     event = 'VeryLazy',
+    --     config = function()
+    --         -- Load treesitter grammar for org
+    --         require('orgmode').setup_ts_grammar()
+    --         -- Setup treesitter
+    --         require('nvim-treesitter.configs').setup({
+    --             highlight = {
+    --                 enable = true,
+    --             },
+    --             ensure_installed = { 'org' },
+    --         })
+    --         -- Setup orgmode
+    --         require('orgmode').setup({
+    --             org_agenda_files = '~/org/**/*',
+    --             org_default_notes_file = '~/org/journal.org',
+    --             org_capture_templates = {
+    --                 j = {
+    --                     description = 'Journal',
+    --                     template = '* %<%Y-%m-%d>\n** %U\n\n%?',
+    --                     target = '~/org/journal.org'
+    --                 },
+    --             }
+    --         })
+    --         -- conceal link
+    --         -- vim.opt.conceallevel = 2
+    --         -- vim.opt.concealcursor = 'nc'
+    --     end,
+    -- },
+    -- {
+    --     'akinsho/org-bullets.nvim',
+    --     dependencies = { 'nvim-orgmode/orgmode' },
+    --     config = function()
+    --         require('org-bullets').setup({
+    --             concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
+    --             symbols = {
+    --                 -- list symbol
+    --                 list = "•",
+    --                 -- headlines can be a list
+    --                 headlines = { "◎", "○", "✸", "✜" },
+    --                 -- or a function that receives the defaults and returns a list
+    --                 checkboxes = {
+    --                     half = { "", "OrgTSCheckboxHalfChecked" },
+    --                     done = { "✓", "OrgDone" },
+    --                     todo = { "˟", "OrgTODO" },
+    --                 },
+    --             }
+    --         })
+    --     end
+    -- },
+    -- {
+    --     "lyz-code/telescope-orgmode.nvim",
+    --     event = "VeryLazy",
+    --     dependencies = {
+    --         "nvim-orgmode/orgmode",
+    --         "nvim-telescope/telescope.nvim",
+    --     },
+    --     config = function()
+    --         require("telescope").load_extension("orgmode")
 
-            vim.keymap.set("n", "<leader>r", require("telescope").extensions.orgmode.refile_heading)
-            vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
-        end,
-    },
+    --         vim.keymap.set("n", "<leader>r", require("telescope").extensions.orgmode.refile_heading)
+    --         vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
+    --     end,
+    -- },
     {
         "nvim-neorg/neorg",
         build = ":Neorg sync-parsers",
@@ -250,13 +251,19 @@ require("lazy").setup({
         config = function()
             require("neorg").setup {
                 load = {
-                    ["core.defaults"] = {}, -- Loads default behaviour
+                    ["core.defaults"] = {},  -- Loads default behaviour
                     ["core.concealer"] = {}, -- Adds pretty icons to your documents
-                    ["core.dirman"] = { -- Manages Neorg workspaces
+                    ["core.dirman"] = {      -- Manages Neorg workspaces
                         config = {
                             workspaces = {
                                 notes = "~/notes",
                             },
+                        },
+                    },
+                    ["core.journal"] = {
+                        -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
+                        config = {
+                            strategy = "flat",
                         },
                     },
                 },
