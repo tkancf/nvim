@@ -56,3 +56,4 @@ local function handle_clock_insertion()
 end
 
 vim.api.nvim_set_keymap('n', '<C-t>', '', { noremap = true, callback = handle_clock_insertion })
+

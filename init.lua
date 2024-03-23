@@ -221,7 +221,7 @@ require("lazy").setup({
             local cmp = require 'cmp'
             cmp.setup {
                 sources = {
-                    -- { name = "orgmode" },
+                    { name = "neorg" },
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -274,6 +274,11 @@ require("lazy").setup({
                     ["core.export.markdown"] = {
                         config = {
                             extensions = "all",
+                        },
+                    },
+                    ["core.completion"] = {
+                        config = {
+                            engine = "nvim-cmp",
                         },
                     },
                 },
