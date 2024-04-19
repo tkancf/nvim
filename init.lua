@@ -142,58 +142,12 @@ require("lazy").setup({
 
             wk.register({
                 ["<leader>"] = {
-                    ["<leader>"] = {
-                        name = "telescope",
-                        f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
-                        g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
-                        b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
-                        h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help Tags" },
-                        u = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent Files" },
-                    },
-                    o = {
-                        name = "neorg",
-                        -- Neorg index
-                        n = { "<cmd>Neorg index<cr>", "Neorg Index" },
-                        m = {
-                            name = "neorg mode",
-                            -- These are the default actions for Neorg that you can use with the keymap
-                            n = { "<cmd>Neorg mode norg<cr>", "norg mode" },
-                            h = { "<cmd>Neorg mode traverse-heading<cr>", "traverse-heading mode" },
-                            l = { "<cmd>Neorg mode traverse-link<cr>", "traverse-link mode" },
-                        },
-                        i = { "<cmd>Neorg toc<cr>", "Neorg TOC" },
-                        l = { "<cmd>GetTaskLists<cr>", "Neorg Task Lists" },
-                        g = {
-                            name = "neorg Get Todo",
-                            t = { "<cmd>GetToDo<cr>", "Neorg ToDo" },
-                            d = { "<cmd>GetTodoDone<cr>", "Neorg ToDo Done" },
-                            w = { "<cmd>GetTodoWip<cr>", "Neorg ToDo WIP" },
-                        },
-                    },
+                    f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
+                    g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
+                    b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
+                    h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help Tags" },
+                    u = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent Files" },
                 }
-            })
-        end
-    },
-    {
-        'nvim-orgmode/orgmode',
-        dependencies = {
-            { 'nvim-treesitter/nvim-treesitter', lazy = true },
-        },
-        event = 'VeryLazy',
-        config = function()
-            -- Load treesitter grammar for org
-            require('orgmode').setup_ts_grammar()
-            -- Setup treesitter
-            require('nvim-treesitter.configs').setup({
-                highlight = {
-                    enable = true,
-                    ensure_installed = { 'org' },
-                }
-            })
-            -- Setup orgmode
-            require('orgmode').setup({
-                org_agenda_files = '~/org/**/*',
-                org_default_notes_file = '~/org/refile.org',
             })
         end
     },
@@ -255,58 +209,6 @@ require("lazy").setup({
                 }),
             }
         end
-    },
-    {
-        "nvim-neorg/neorg",
-        build = ":Neorg sync-parsers",
-        lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
-        -- tag = "*",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            dir =
-            "~/src/tkancf-neorg-module/",
-        },
-        config = function()
-            require("neorg").setup {
-                load = {
-                    ["core.defaults"] = {},  -- Loads default behaviour
-                    ["core.concealer"] = {}, -- Adds pretty icons to your documents
-                    ["core.dirman"] = {      -- Manages Neorg workspaces
-                        config = {
-                            workspaces = {
-                                notes = "~/notes",
-                            },
-                        },
-                    },
-                    ["core.journal"] = {
-                        -- strategy: "flat" (2022-03-02.norg), "nested" (2022/03/02.norg)
-                        config = {
-                            strategy = "flat",
-                        },
-                    },
-                    ["core.summary"] = {
-                        config = {
-                            strategy = "by_path",
-                        },
-                    },
-                    ["core.export"] = {
-                        config = {
-                            export_dir = "export",
-                        },
-                    },
-                    ["core.export.markdown"] = {
-                        config = {
-                            extensions = "all",
-                        },
-                    },
-                    ["core.completion"] = {
-                        config = {
-                            engine = "nvim-cmp",
-                        },
-                    },
-                },
-            }
-        end,
     },
 })
 
