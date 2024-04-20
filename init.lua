@@ -56,17 +56,29 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     -- code highlight
     {
-        'nvim-treesitter/nvim-treesitter',
-        build = ":TSUpdate"
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function()
+            -- Tree-sitterの設定
+            require 'nvim-treesitter.configs'.setup {
+                highlight = {
+                    ensure_installed = { "markdown", "markdown_inline" },
+                    enable = true, -- Tree-sitterハイライトを有効化
+                    additional_vim_regex_highlighting = true,
+                },
+            }
+        end,
     },
     -- colorscheme
     {
-        "olimorris/onedarkpro.nvim",
-        name = "onedark",
+        'navarasu/onedark.nvim',
         lazy = false,    -- make sure we load this during startup if it is your main colorscheme
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
-            vim.cmd([[colorscheme onedark]])
+            require('onedark').setup {
+                style = 'warm'
+            }
+            require('onedark').load()
         end,
     },
     -- launcher
