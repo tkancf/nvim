@@ -221,6 +221,19 @@ require("lazy").setup({
                 -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
                 template = nil
             },
+
+            -- Template settings.
+            templates = {
+                subdir = "99_template",
+                date_format = "%Y-%m-%d",
+                time_format = "%H:%M",
+                -- A map for custom variables, the key should be the variable and the value a function
+                substitutions = {
+                    yesterday = function()
+                        return os.date("%Y-%m-%d", os.time() - 86400)
+                    end,
+                },
+            },
         },
     },
 })
