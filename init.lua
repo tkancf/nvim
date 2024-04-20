@@ -98,6 +98,7 @@ require("lazy").setup({
             wk.register({
                 ["<leader>"] = {
                     name = "telescope",
+                    [";"] = { "<cmd>lua require('telescope.builtin').command_history()<cr>", "Command history" },
                     f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
                     g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
                     b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
