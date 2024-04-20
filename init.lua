@@ -164,4 +164,13 @@ require("lazy").setup({
             }
         end
     },
+    {
+        'masukomi/vim-markdown-folding',
+    },
+    {
+        'anuvyklack/pretty-fold.nvim',
+        config = function()
+            require('pretty-fold').setup()
+        end
+    },
 })
