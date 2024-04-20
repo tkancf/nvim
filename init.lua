@@ -93,55 +93,10 @@ require("lazy").setup({
         },
         config = function()
             local wk = require("which-key")
-            local _, neorg = pcall(require, "neorg.core")
-            local dirman = neorg.modules.get_module("core.dirman")
-
-            -- get task lists
-            local function get_task_lists(dir, states)
-                local current_workspace = dirman.get_current_workspace()
-                local dir = current_workspace[2]
-                local pattern = "-"
-                -- Add vimgrep_arguments to exclude template.norg files
-                require('telescope.builtin').live_grep {
-                    cwd = dir,
-                    vimgrep_arguments = {
-                        'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case',
-                        '-g', '!template.norg',
-                    }
-                }
-                vim.fn.feedkeys('^ *([*]+|[-]+) +[(]' .. states .. '[)]')
-            end
-            vim.api.nvim_create_user_command('GetTaskLists', function()
-                get_task_lists('~/notes', '[^x_]')
-            end, {})
-
-            -- get task lists
-            local function get_todos(dir, states)
-                local current_workspace = dirman.get_current_workspace()
-                local dir = current_workspace[2]
-                local pattern = "-"
-                -- Add vimgrep_arguments to exclude template.norg files
-                require('telescope.builtin').live_grep {
-                    cwd = dir,
-                    vimgrep_arguments = {
-                        'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case',
-                        '-g', '!template.norg',
-                    }
-                }
-                vim.fn.feedkeys('^\\*+ ' .. states .. ' ')
-            end
-            vim.api.nvim_create_user_command('GetToDo', function()
-                get_todos('~/notes', 'TODO')
-            end, {})
-            vim.api.nvim_create_user_command('GetTodoDone', function()
-                get_todos('~/notes', 'DONE')
-            end, {})
-            vim.api.nvim_create_user_command('GetTodoWip', function()
-                get_todos('~/notes', 'WIP')
-            end, {})
 
             wk.register({
                 ["<leader>"] = {
+                    name = "telescope",
                     f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
                     g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
                     b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
