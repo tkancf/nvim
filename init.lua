@@ -165,5 +165,3 @@ require("lazy").setup({
         end
     },
 })
-
-require('clock')
