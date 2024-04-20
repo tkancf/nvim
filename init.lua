@@ -167,6 +167,9 @@ require("lazy").setup({
         end
     },
     {
+        'mattn/vim-maketable',
+    },
+    {
         'masukomi/vim-markdown-folding',
     },
     {
