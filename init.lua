@@ -208,6 +208,9 @@ require("lazy").setup({
                 -- Trigger completion at 2 chars.
                 min_chars = 2,
             },
+            -- Either 'wiki' or 'markdown'.
+            preferred_link_style = "markdown",
+
         },
     },
 })
