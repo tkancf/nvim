@@ -211,6 +211,15 @@ require("lazy").setup({
             -- Either 'wiki' or 'markdown'.
             preferred_link_style = "markdown",
 
+            -- Daily note settings.
+            daily_notes = {
+                -- Optional, if you keep daily notes in a separate directory.
+                folder = "01_daily",
+                -- Optional, if you want to change the date format for the ID of daily notes.
+                date_format = "%Y-%m-%d",
+                -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
+                template = nil
+            },
         },
     },
 })
