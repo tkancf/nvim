@@ -269,3 +269,49 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         vim.fn.matchadd('DoneHighlight', '\\v(#+\\s+)@<=DONE')
     end
 })
+
+function SearchTodo()
+    -- 既存のバッファがあればそれを更新、なければ新規作成
+    local buf = vim.fn.bufnr('__TODO__')
+    if buf == -1 then
+        buf = vim.api.nvim_create_buf(false, true)
+        vim.api.nvim_buf_set_name(buf, '__TODO__')
+        vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+    end
+
+    -- 現在のバッファのすべての行を取得
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+    local todo_lines = {}
+
+    -- 各行についてループし、'## TODO'を含む行を見つける
+    for i, line in ipairs(lines) do
+        if line:find('## TODO') then
+            table.insert(todo_lines, { file = vim.api.nvim_buf_get_name(0), line = i, content = line })
+        end
+    end
+
+    -- 検索結果を表示
+    if #todo_lines > 0 then
+        -- マッチした行をバッファに追加
+        local lines_to_insert = {}
+        for _, todo in ipairs(todo_lines) do
+            -- ファイル名と行番号の行を追加
+            local file_line_info = string.format('%s:%d:', todo.file, todo.line)
+            table.insert(lines_to_insert, file_line_info)
+            -- TODOの内容の行を追加
+            table.insert(lines_to_insert, todo.content)
+        end
+        -- バッファを読み取り専用に設定
+        vim.api.nvim_buf_set_option(buf, 'modifiable', true)
+        vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines_to_insert)
+        vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+
+        -- バッファを新しいウィンドウで開いて表示
+        vim.api.nvim_command('botright vsplit __TODO__')
+    else
+        print('No TODOs found.')
+    end
+end
+
+-- 'TodoSearch'コマンドを定義
+vim.api.nvim_command('command! -nargs=0 TodoSearch lua SearchTodo()')
