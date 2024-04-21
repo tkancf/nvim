@@ -64,7 +64,7 @@ require("lazy").setup({
                 highlight = {
                     ensure_installed = {},
                     enable = true, -- Tree-sitterハイライトを有効化
-                    additional_vim_regex_highlighting = true,
+                    additional_vim_regex_highlighting = false,
                 },
             }
         end,
@@ -253,65 +253,117 @@ require("lazy").setup({
     },
 })
 
--- Markdown オリジナルハイライト
-vim.api.nvim_set_hl(0, 'TodoHighlight', { fg = '#ff0000', bg = '#ffffff', bold = true })
-vim.api.nvim_set_hl(0, 'DoneHighlight', { fg = '#00ff00', bg = '#ffffff', bold = true })
-
--- 自動コマンドを設定
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-    pattern = "*",
+-- Markdown ファイルに対するオリジナルハイライト設定
+vim.api.nvim_create_autocmd({ "FileType", "BufReadPost", "BufEnter" }, {
+    pattern = "markdown",
     callback = function()
-        -- ハイライトルールを適用
-        vim.cmd("highlight TodoHighlight guifg='#CB0000' guibg='#ffffff' gui=bold")
-        vim.cmd("highlight DoneHighlight guifg='#008000' guibg='#ffffff' gui=bold")
-        -- パターンマッチングで`TODO`と`DONE`のみをハイライト
-        vim.fn.matchadd('TodoHighlight', '\\v(#+\\s+)@<=TODO')
-        vim.fn.matchadd('DoneHighlight', '\\v(#+\\s+)@<=DONE')
+        -- ハイライトルールを再設定
+        vim.api.nvim_set_hl(0, 'TodoHighlight', { fg = '#B80000', bg = '#ffffff', bold = true })
+        vim.api.nvim_set_hl(0, 'DoneHighlight', { fg = '#00B800', bg = '#ffffff', bold = true })
+        vim.api.nvim_set_hl(0, 'ScheduleHighlight', { fg = '#00B800', bold = true })
+        vim.api.nvim_set_hl(0, 'DeadlineHighlight', { fg = '#E80000', bold = true })
+
+        -- パターンマッチングで`TODO`と`DONE`をハイライト（正規表現のチェック）
+        vim.fn.matchadd('TodoHighlight', '\\v(#+\\s+)@<=TODO', 100)
+        vim.fn.matchadd('DoneHighlight', '\\v(#+\\s+)@<=DONE', 100)
+        vim.fn.matchadd('ScheduleHighlight', 'Schedule:', 100)
+        vim.fn.matchadd('DeadlineHighlight', 'Deadline:', 100)
     end
 })
 
-function SearchTodo()
-    -- 既存のバッファがあればそれを更新、なければ新規作成
-    local buf = vim.fn.bufnr('__TODO__')
-    if buf == -1 then
-        buf = vim.api.nvim_create_buf(false, true)
-        vim.api.nvim_buf_set_name(buf, '__TODO__')
-        vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+function SearchTodoInMarkdownFiles()
+    local path = vim.fn.getcwd()
+    local todo_buf = vim.fn.bufnr('__TODO__')
+
+    -- 既に__TODO__バッファがある場合は、そのバッファを削除して再作成
+    if todo_buf ~= -1 and vim.api.nvim_buf_is_loaded(todo_buf) then
+        -- バッファが開いているウィンドウを取得
+        local windows = vim.api.nvim_list_wins()
+        for _, window in ipairs(windows) do
+            if vim.api.nvim_win_get_buf(window) == todo_buf then
+                vim.api.nvim_win_close(window, true)
+            end
+        end
+        vim.api.nvim_buf_delete(todo_buf, { force = true })
     end
 
-    -- 現在のバッファのすべての行を取得
-    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    local todo_lines = {}
+    -- 新しいバッファを作成
+    todo_buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_name(todo_buf, '__TODO__')
 
-    -- 各行についてループし、'## TODO'を含む行を見つける
-    for i, line in ipairs(lines) do
-        if line:find('## TODO') then
-            table.insert(todo_lines, { file = vim.api.nvim_buf_get_name(0), line = i, content = line })
+    -- ディレクトリを再帰的にスキャンして.mdファイルを検索
+    local function scan_dir(dir)
+        local todos = {}
+        local handle, err = vim.loop.fs_scandir(dir)
+        if handle then
+            while true do
+                local name, type = vim.loop.fs_scandir_next(handle)
+                if not name then break end
+                local full_path = dir .. '/' .. name
+                if type == 'directory' then
+                    vim.list_extend(todos, scan_dir(full_path))
+                elseif type == 'file' and name:match('%.md$') then
+                    local file = io.open(full_path, "r")
+                    if file then
+                        local lines = file:lines()
+                        local line_number = 1
+                        local todo_line = nil
+                        local todo_line_number = nil
+                        for line in lines do
+                            if line:find('^#+ TODO ') then
+                                todo_line = line
+                                todo_line_number = line_number
+                                local formatted_todo_info = string.format('%s:%d', full_path, todo_line_number)
+                                -- @s:xxxx-xx-xxの形式の部分を抽出してscheduleに格納する
+                                local schedule = todo_line:match("@s:(%d%d%d%d%-%d%d%-%d%d)")
+                                -- @d:xxxx-xx-xxの形式の部分を抽出してdeadlineに格納する
+                                local deadline = todo_line:match("@d:(%d%d%d%d%-%d%d%-%d%d)")
+
+                                local formatted_todo = string.format('%s',
+                                    todo_line:gsub("@s:%d%d%d%d%-%d%d%-%d%d @d:%d%d%d%d%-%d%d%-%d%d", ""))
+
+                                if schedule == nil then
+                                    schedule = "None"
+                                end
+                                if deadline == nil then
+                                    deadline = "None"
+                                end
+                                local formatted_date = string.format('Schedule: %s | Deadline: %s', schedule, deadline)
+                                table.insert(todos, formatted_todo_info)
+                                table.insert(todos, formatted_todo)
+                                if deadline == "None" and schedule == "None" then
+                                else
+                                    table.insert(todos, formatted_date)
+                                end
+                                table.insert(todos, "")
+                                todo_line = nil -- Reset the TODO line tracker
+                            else
+                                todo_line = nil
+                            end
+                            line_number = line_number + 1
+                        end
+                        file:close()
+                    end
+                end
+            end
+        elseif err then
+            vim.api.nvim_err_writeln('Error opening directory ' .. dir .. ': ' .. err)
         end
+        return todos
     end
 
-    -- 検索結果を表示
-    if #todo_lines > 0 then
-        -- マッチした行をバッファに追加
-        local lines_to_insert = {}
-        for _, todo in ipairs(todo_lines) do
-            -- ファイル名と行番号の行を追加
-            local file_line_info = string.format('%s:%d:', todo.file, todo.line)
-            table.insert(lines_to_insert, file_line_info)
-            -- TODOの内容の行を追加
-            table.insert(lines_to_insert, todo.content)
-        end
-        -- バッファを読み取り専用に設定
-        vim.api.nvim_buf_set_option(buf, 'modifiable', true)
-        vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines_to_insert)
-        vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+    local todos = scan_dir(path)
 
-        -- バッファを新しいウィンドウで開いて表示
-        vim.api.nvim_command('botright vsplit __TODO__')
+    if #todos > 0 then
+        vim.api.nvim_buf_set_option(todo_buf, 'modifiable', true)
+        vim.api.nvim_buf_set_lines(todo_buf, 0, -1, false, todos)
+        vim.api.nvim_buf_set_option(todo_buf, 'modifiable', false)
+        vim.api.nvim_command('split')
+        vim.api.nvim_win_set_buf(0, todo_buf)
+        -- vim.api.nvim_buf_set_option(todo_buf, 'filetype', 'markdown')
     else
         print('No TODOs found.')
     end
 end
 
--- 'TodoSearch'コマンドを定義
-vim.api.nvim_command('command! -nargs=0 TodoSearch lua SearchTodo()')
+vim.api.nvim_command('command! -nargs=0 TodoSearchInMarkdown lua SearchTodoInMarkdownFiles()')
