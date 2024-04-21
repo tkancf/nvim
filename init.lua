@@ -62,7 +62,7 @@ require("lazy").setup({
             -- Tree-sitterの設定
             require 'nvim-treesitter.configs'.setup {
                 highlight = {
-                    ensure_installed = { "markdown", "markdown_inline" },
+                    ensure_installed = {},
                     enable = true, -- Tree-sitterハイライトを有効化
                     additional_vim_regex_highlighting = true,
                 },
@@ -251,4 +251,21 @@ require("lazy").setup({
             },
         },
     },
+})
+
+-- Markdown オリジナルハイライト
+vim.api.nvim_set_hl(0, 'TodoHighlight', { fg = '#ff0000', bg = '#ffffff', bold = true })
+vim.api.nvim_set_hl(0, 'DoneHighlight', { fg = '#00ff00', bg = '#ffffff', bold = true })
+
+-- 自動コマンドを設定
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = "*",
+    callback = function()
+        -- ハイライトルールを適用
+        vim.cmd("highlight TodoHighlight guifg='#CB0000' guibg='#ffffff' gui=bold")
+        vim.cmd("highlight DoneHighlight guifg='#008000' guibg='#ffffff' gui=bold")
+        -- パターンマッチングで`TODO`と`DONE`のみをハイライト
+        vim.fn.matchadd('TodoHighlight', '\\v(#+\\s+)@<=TODO')
+        vim.fn.matchadd('DoneHighlight', '\\v(#+\\s+)@<=DONE')
+    end
 })
