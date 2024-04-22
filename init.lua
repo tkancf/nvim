@@ -256,6 +256,40 @@ require("lazy").setup({
                 -- Generate a unique ID YYYYMMDDHHMMSS format
                 return tostring(os.date("%Y%m%d%H%M%S"))
             end,
+
+            -- Optional, alternatively you can customize the frontmatter data.
+            ---@return table
+            note_frontmatter_func = function(note)
+                -- Add the title of the note as an alias.
+                if note.title then
+                    note:add_alias(note.title)
+                end
+
+                -- Create timestamps for created and updated times
+                local created_time = os.date("%Y-%m-%d %H:%M") -- ISO 8601 format
+                local updated_time = created_time              -- Initially, created and updated times are the same
+
+                -- Initialize the frontmatter table
+                local out = {
+                    id = note.id,
+                    title = note.title,
+                    aliases = note.aliases,
+                    tags = note.tags,
+                    created = created_time,
+                    updated = updated_time
+                }
+
+                -- If note.metadata already has created or updated, use those values instead
+                if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+                    for k, v in pairs(note.metadata) do
+                        out[k] = v
+                    end
+                    if note.metadata.created then out.created = note.metadata.created end
+                    if note.metadata.updated then out.updated = note.metadata.updated end
+                end
+
+                return out
+            end,
         },
     },
 })
