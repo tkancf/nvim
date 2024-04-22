@@ -37,6 +37,7 @@ vim.api.nvim_set_keymap('n', 'gk', 'k', { noremap = true })
 vim.api.nvim_set_keymap('n', ';', ':', { noremap = true })
 vim.api.nvim_set_keymap('n', ':', ';', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Esc><Esc>', ':nohl<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-w>t', ':tabnew<CR>', { noremap = true, silent = true })
 
 -- plugin
 
@@ -180,9 +181,6 @@ require("lazy").setup({
     },
     {
         'mattn/vim-maketable',
-    },
-    {
-        'masukomi/vim-markdown-folding',
     },
     {
         'anuvyklack/pretty-fold.nvim',
