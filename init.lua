@@ -249,6 +249,13 @@ require("lazy").setup({
                     end,
                 },
             },
+            -- Optional, customize how note IDs are generated given an optional title.
+            ---@param title string|?
+            ---@return string
+            note_id_func = function(title)
+                -- Generate a unique ID YYYYMMDDHHMMSS format
+                return tostring(os.date("%Y%m%d%H%M%S"))
+            end,
         },
     },
 })
