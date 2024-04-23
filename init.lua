@@ -2,8 +2,8 @@
 -- encoding
 vim.o.encofing = 'utf-8'
 vim.scriptencoding = 'utf-8'
--- vim.o.ambiwidth = 'double'
-vim.o.conceallevel = 2
+vim.o.ambiwidth = 'double'
+vim.o.conceallevel = 0
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
@@ -63,7 +63,7 @@ require("lazy").setup({
             -- Tree-sitterの設定
             require 'nvim-treesitter.configs'.setup {
                 highlight = {
-                    ensure_installed = {},
+                    ensure_installed = { "markdown" },
                     enable = true, -- Tree-sitterハイライトを有効化
                     additional_vim_regex_highlighting = false,
                 },
@@ -193,13 +193,6 @@ require("lazy").setup({
         version = "*", -- recommended, use latest release instead of latest commit
         lazy = true,
         ft = "markdown",
-        -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-        -- event = {
-        --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-        --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-        --   "BufReadPre path/to/my-vault/**.md",
-        --   "BufNewFile path/to/my-vault/**.md",
-        -- },
         dependencies = {
             -- Required.
             'nvim-lua/plenary.nvim',
@@ -288,6 +281,20 @@ require("lazy").setup({
 
                 return out
             end,
+        },
+        ui = {
+            enable = true,
+            bullets = { hl_group = "ObsidianBullet" },
+            checkboxes = {
+                [" "] = { hl_group = "ObsidianTodo" },
+                ["x"] = { hl_group = "ObsidianDone" },
+                ["s"] = { hl_group = "ObsidianDone" },
+                [">"] = { hl_group = "ObsidianRightArrow" },
+                ["k"] = { hl_group = "ObsidianRightArrow" },
+                ["m"] = { hl_group = "ObsidianRightArrow" },
+                ["~"] = { hl_group = "ObsidianTilde" },
+                ["t"] = { hl_group = "ObsidianTilde" },
+            },
         },
     },
 })
