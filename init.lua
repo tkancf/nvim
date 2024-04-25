@@ -21,6 +21,7 @@ vim.opt.clipboard:append { 'unnamedplus' }
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath('cache') .. '/undo'
 vim.o.foldlevel = 1
+vim.o.autochdir = true
 
 -- disable netrw
 vim.g.loaded_netrw = 1
@@ -98,7 +99,7 @@ require("lazy").setup({
         event = "VeryLazy",
         init = function()
             vim.o.timeout = true
-            vim.o.timeoutlen = 300
+            vim.o.timeoutlen = 1000
         end,
         opts = {
             -- your configuration comes here
@@ -107,16 +108,17 @@ require("lazy").setup({
         },
         config = function()
             local wk = require("which-key")
-
             wk.register({
                 ["<leader>"] = {
-                    name = "telescope",
-                    [";"] = { "<cmd>lua require('telescope.builtin').command_history()<cr>", "Command history" },
-                    f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
-                    g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
-                    b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
-                    h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help Tags" },
-                    u = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent Files" },
+                    f = {
+                        name = "Telescope",
+                        [";"] = { "<cmd>lua require('telescope.builtin').command_history()<cr>", "Command history" },
+                        f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
+                        g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
+                        b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
+                        h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help Tags" },
+                        u = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent Files" },
+                    },
                 }
             })
         end
@@ -127,7 +129,7 @@ require("lazy").setup({
         config = function()
             require("image_preview").setup()
             vim.api.nvim_set_keymap('n', '<leader>p',
-                '<cmd>lua require("image_preview").PreviewImage(vim.fn.expand("<cfile>"))<cr>',
+                '<cmd>lua require("image_preview").PreviewImage(vim.fn.getcwd() .. "/" .. vim.fn.expand("<cfile>"))<cr>',
                 { noremap = true, silent = true })
         end
     },
@@ -281,6 +283,11 @@ require("lazy").setup({
 
                 return out
             end,
+            vim.api.nvim_set_keymap('n', '<leader>on', '<cmd>ObsidianNew<cr>', { noremap = true, silent = true }),
+            vim.api.nvim_set_keymap('n', '<leader>os', '<cmd>ObsidianFollowLink hsplit<cr>',
+                { noremap = true, silent = true }),
+            vim.api.nvim_set_keymap('n', '<leader>ot', '<cmd>ObsidianToday<cr>',
+                { noremap = true, silent = true }),
         },
         ui = {
             enable = true,
