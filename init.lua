@@ -110,15 +110,13 @@ require("lazy").setup({
             local wk = require("which-key")
             wk.register({
                 ["<leader>"] = {
-                    f = {
-                        name = "Telescope",
-                        [";"] = { "<cmd>lua require('telescope.builtin').command_history()<cr>", "Command history" },
-                        f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
-                        g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
-                        b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
-                        h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help Tags" },
-                        u = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent Files" },
-                    },
+                    name = "Telescope",
+                    [";"] = { "<cmd>lua require('telescope.builtin').command_history()<cr>", "Command history" },
+                    f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
+                    g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
+                    b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
+                    h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help Tags" },
+                    u = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent Files" },
                 }
             })
         end
@@ -223,7 +221,7 @@ require("lazy").setup({
             -- Daily note settings.
             daily_notes = {
                 -- Optional, if you keep daily notes in a separate directory.
-                folder = "01_daily",
+                folder = "",
                 -- Optional, if you want to change the date format for the ID of daily notes.
                 date_format = "%Y-%m-%d",
                 -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
@@ -232,7 +230,7 @@ require("lazy").setup({
 
             -- Template settings.
             templates = {
-                subdir = "99_template",
+                subdir = "_template",
                 date_format = "%Y-%m-%d",
                 time_format = "%H:%M",
                 -- A map for custom variables, the key should be the variable and the value a function
@@ -287,6 +285,8 @@ require("lazy").setup({
             vim.api.nvim_set_keymap('n', '<leader>os', '<cmd>ObsidianFollowLink hsplit<cr>',
                 { noremap = true, silent = true }),
             vim.api.nvim_set_keymap('n', '<leader>ot', '<cmd>ObsidianToday<cr>',
+                { noremap = true, silent = true }),
+            vim.api.nvim_set_keymap('n', '<leader>ob', '<cmd>ObsidianBacklinks<cr>',
                 { noremap = true, silent = true }),
         },
         ui = {
