@@ -17,4 +17,7 @@ return {
             require('pretty-fold').setup()
         end
     },
+    {
+        'cohama/lexima.vim'
+    },
 }
