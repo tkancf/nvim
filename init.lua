@@ -431,3 +431,7 @@ function SearchTodoInMarkdownFiles()
 end
 
 vim.api.nvim_command('command! -nargs=0 TodoSearchInMarkdown lua SearchTodoInMarkdownFiles()')
+
+require('markdown_title_picker')
+vim.api.nvim_set_keymap('n', '<leader>oo', "<cmd>lua require('markdown_title_picker').open_markdown_by_title()<CR>",
+    { noremap = true, silent = true })
