@@ -189,6 +189,17 @@ require("lazy").setup({
         end
     },
     {
+        'plasticboy/vim-markdown',
+        require = { 'godlygeek/tabular' },
+        lazy = true,
+        ft = 'markdown',
+        config = function()
+            vim.g.vim_markdown_folding_level = 2
+            vim.g.vim_markdown_frontmatter = 1
+            vim.o.foldenable = false
+        end
+    },
+    {
         "epwalsh/obsidian.nvim",
         version = "*", -- recommended, use latest release instead of latest commit
         lazy = true,
@@ -230,7 +241,7 @@ require("lazy").setup({
 
             -- Template settings.
             templates = {
-                subdir = "_template",
+                subdir = ".config/template",
                 date_format = "%Y-%m-%d",
                 time_format = "%H:%M",
                 -- A map for custom variables, the key should be the variable and the value a function
