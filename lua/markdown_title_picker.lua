@@ -28,8 +28,6 @@ local function extract_titles(dir)
     return titles
 end
 
-
-
 local function open_markdown_by_title()
     local current_dir = vim.fn.getcwd()        -- カレントディレクトリを取得
     local titles = extract_titles(current_dir) -- カレントディレクトリを引数に渡す
