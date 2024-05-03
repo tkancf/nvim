@@ -43,6 +43,10 @@ return {
                     name = "tkm",
                     path = "~/Dropbox/tkm",
                 },
+                {
+                    name = "tkn",
+                    path = "~/Dropbox/tkn",
+                },
             },
             completion = {
                 -- Set to false to disable completion.
@@ -116,6 +120,16 @@ return {
 
                 return out
             end,
+
+            -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
+            -- URL it will be ignored but you can customize this behavior here.
+            ---@param url string
+            follow_url_func = function(url)
+              -- Open the URL in the default web browser.
+              vim.fn.jobstart({"open", url})  -- Mac OS
+              -- vim.fn.jobstart({"xdg-open", url})  -- linux
+            end,
+
             vim.api.nvim_set_keymap('n', '<leader>on', '<cmd>ObsidianNew<cr>', { noremap = true, silent = true }),
             vim.api.nvim_set_keymap('n', '<leader>os', '<cmd>ObsidianFollowLink hsplit<cr>',
                 { noremap = true, silent = true }),
@@ -126,17 +140,12 @@ return {
         },
         ui = {
             enable = true,
-            bullets = { hl_group = "ObsidianBullet" },
             checkboxes = {
                 [" "] = { hl_group = "ObsidianTodo" },
                 ["x"] = { hl_group = "ObsidianDone" },
-                ["s"] = { hl_group = "ObsidianDone" },
                 [">"] = { hl_group = "ObsidianRightArrow" },
-                ["k"] = { hl_group = "ObsidianRightArrow" },
-                ["m"] = { hl_group = "ObsidianRightArrow" },
-                ["~"] = { hl_group = "ObsidianTilde" },
-                ["t"] = { hl_group = "ObsidianTilde" },
             },
+            bullets = { char = "-", hl_group = "ObsidianBullet" },
         },
     },
 }
