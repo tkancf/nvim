@@ -12,14 +12,14 @@ return {
         ft = 'markdown',
     },
     {
-        'plasticboy/vim-markdown',
-        require = { 'godlygeek/tabular' },
+        'https://github.com/preservim/vim-markdown',
+        require = { 'https://github.com/godlygeek/tabular' },
         lazy = true,
         ft = 'markdown',
         config = function()
             vim.g.vim_markdown_folding_level = 2
             vim.g.vim_markdown_frontmatter = 1
-            vim.o.foldenable = false
+            -- vim.o.foldenable = false
             vim.g.vim_markdown_new_list_item_indent = 0
         end
     },
@@ -125,9 +125,9 @@ return {
             -- URL it will be ignored but you can customize this behavior here.
             ---@param url string
             follow_url_func = function(url)
-              -- Open the URL in the default web browser.
-              vim.fn.jobstart({"open", url})  -- Mac OS
-              -- vim.fn.jobstart({"xdg-open", url})  -- linux
+                -- Open the URL in the default web browser.
+                vim.fn.jobstart({ "open", url }) -- Mac OS
+                -- vim.fn.jobstart({"xdg-open", url})  -- linux
             end,
 
             vim.api.nvim_set_keymap('n', '<leader>on', '<cmd>ObsidianNew<cr>', { noremap = true, silent = true }),

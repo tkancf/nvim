@@ -10,13 +10,6 @@ return {
                 { noremap = true, silent = true })
         end
     },
-    -- fold text
-    {
-        'anuvyklack/pretty-fold.nvim',
-        config = function()
-            require('pretty-fold').setup()
-        end
-    },
     {
         'https://github.com/cohama/lexima.vim',
         config = function()
@@ -31,6 +24,9 @@ return {
     },
     {
         'https://github.com/yuki-yano/lexima-alter-command.vim',
+        dependencies = {
+            'https://github.com/cohama/lexima.vim'
+        },
         config = function()
             vim.cmd [[
                 LeximaAlterCommand obw ObsidianWorkspace
@@ -38,6 +34,6 @@ return {
                 LeximaAlterCommand obt ObsidianToday
                 LeximaAlterCommand obe ObsidianExtractNote
             ]]
-        end
+        end,
     }
 }
