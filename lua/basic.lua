@@ -31,10 +31,6 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.api.nvim_set_keymap('n', 's', '', { noremap = true })
 vim.g.maplocalleader = 's'
-vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true })
-vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = true })
-vim.api.nvim_set_keymap('n', 'gj', 'j', { noremap = true })
-vim.api.nvim_set_keymap('n', 'gk', 'k', { noremap = true })
 vim.api.nvim_set_keymap('n', ';', ':', { noremap = true })
 vim.api.nvim_set_keymap('n', ':', ';', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Esc><Esc>', ':nohl<CR>', { noremap = true, silent = true })
