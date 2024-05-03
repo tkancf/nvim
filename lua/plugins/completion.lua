@@ -1,13 +1,13 @@
 return {
     {
-        'hrsh7th/nvim-cmp',
+        'https://github.com/hrsh7th/nvim-cmp',
         dependencies = {
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-vsnip',
-            'hrsh7th/vim-vsnip',
-            'hrsh7th/cmp-cmdline',
+            'https://github.com/rsh7th/cmp-nvim-lsp',
+            'https://github.com/rsh7th/cmp-buffer',
+            'https://github.com/rsh7th/cmp-path',
+            'https://github.com/rsh7th/cmp-vsnip',
+            'https://github.com/rsh7th/vim-vsnip',
+            'https://github.com/rsh7th/cmp-cmdline',
         },
         config = function()
             local cmp = require 'cmp'
@@ -82,7 +82,7 @@ return {
         end
     },
     {
-        'hrsh7th/vim-vsnip',
+        'https://github.com/rsh7th/vim-vsnip',
         config = function()
             vim.api.nvim_set_keymap('i', '<C-j>', "vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'",
                 { expr = true, noremap = true })

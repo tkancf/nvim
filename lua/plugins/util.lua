@@ -1,7 +1,7 @@
 return {
     -- image preview
     {
-        'adelarsq/image_preview.nvim',
+        'https://github.com/adelarsq/image_preview.nvim',
         event = 'VeryLazy',
         config = function()
             require("image_preview").setup()
@@ -35,5 +35,8 @@ return {
                 LeximaAlterCommand obe ObsidianExtractNote
             ]]
         end,
+    },
+    {
+        'https://github.com/machakann/vim-sandwich',
     }
 }

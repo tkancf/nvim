@@ -1,6 +1,6 @@
 return {
     {
-        'stevearc/oil.nvim',
+        'https://github.com/tevearc/oil.nvim',
         opts = {},
         -- Optional dependencies
         dependencies = { "nvim-tree/nvim-web-devicons" },

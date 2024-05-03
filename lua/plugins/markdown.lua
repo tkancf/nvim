@@ -1,13 +1,13 @@
 return {
     {
-        'kat0h/bufpreview.vim',
+        'https://github.com/at0h/bufpreview.vim',
         lazy = true,
         ft = 'markdown',
         dependencies = { 'vim-denops/denops.vim' },
         build = 'deno task prepare'
     },
     {
-        'mattn/vim-maketable',
+        'https://github.com/attn/vim-maketable',
         lazy = true,
         ft = 'markdown',
     },
@@ -30,10 +30,10 @@ return {
         ft = "markdown",
         dependencies = {
             -- Required.
-            'nvim-lua/plenary.nvim',
-            'hrsh7th/nvim-cmp',
-            'nvim-telescope/telescope.nvim',
-            'nvim-treesitter/nvim-treesitter',
+            'https://github.com/vim-lua/plenary.nvim',
+            'https://github.com/rsh7th/nvim-cmp',
+            'https://github.com/vim-telescope/telescope.nvim',
+            'https://github.com/vim-treesitter/nvim-treesitter',
             -- see below for full list of optional dependencies 👇
         },
         opts = {
