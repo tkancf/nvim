@@ -2,8 +2,8 @@
 -- encoding
 vim.o.encofing = 'utf-8'
 vim.scriptencoding = 'utf-8'
-vim.o.ambiwidth = 'double'
-vim.o.conceallevel = 0
+vim.o.ambiwidth = 'single'
+vim.o.conceallevel = 1
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
@@ -21,7 +21,7 @@ vim.opt.clipboard:append { 'unnamedplus' }
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath('cache') .. '/undo'
 vim.o.foldlevel = 1
-vim.o.autochdir = true
+-- vim.o.autochdir = true
 
 -- disable netrw
 vim.g.loaded_netrw = 1

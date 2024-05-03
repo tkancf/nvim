@@ -18,6 +18,15 @@ return {
         end
     },
     {
-        'cohama/lexima.vim'
+        'https://github.com/cohama/lexima.vim',
+        config = function()
+            vim.g.lexima_enable_space_rules = 0
+        end,
+    },
+    {
+        'https://github.com/rbtnn/vim-ambiwidth'
+    },
+    {
+        'https://github.com/thinca/vim-qfreplace'
     },
 }
