@@ -29,4 +29,15 @@ return {
     {
         'https://github.com/thinca/vim-qfreplace'
     },
+    {
+        'https://github.com/yuki-yano/lexima-alter-command.vim',
+        config = function()
+            vim.cmd [[
+                LeximaAlterCommand obw ObsidianWorkspace
+                LeximaAlterCommand obd ObsidianDailies
+                LeximaAlterCommand obt ObsidianToday
+                LeximaAlterCommand obe ObsidianExtractNote
+            ]]
+        end
+    }
 }

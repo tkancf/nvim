@@ -24,7 +24,7 @@ return {
         end
     },
     {
-        "epwalsh/obsidian.nvim",
+        "https://github.com/epwalsh/obsidian.nvim",
         version = "*", -- recommended, use latest release instead of latest commit
         lazy = true,
         ft = "markdown",

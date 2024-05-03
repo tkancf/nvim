@@ -8,6 +8,7 @@
   "denops.vim": { "branch": "main", "commit": "9f0f941f09c4daa397478e7fab4805262fb87cc9" },
   "image_preview.nvim": { "branch": "main", "commit": "8de950078bdecf1916e8dbddfbee451e095b023c" },
   "lazy.nvim": { "branch": "main", "commit": "3f13f080434ac942b150679223d54f5ca91e0d52" },
+  "lexima-alter-command.vim": { "branch": "main", "commit": "704a5dbf12378cde4f5f9a0f85f084d8a9a7bb8b" },
   "lexima.vim": { "branch": "master", "commit": "5513d686801993b40c55baa65602f79cd3cf3c77" },
   "nvim-cmp": { "branch": "main", "commit": "8f3c541407e691af6163e2447f3af1bd6e17f9a3" },
   "nvim-treesitter": { "branch": "master", "commit": "b1f3f02027f1fd21956c1e219878764014498a59" },
