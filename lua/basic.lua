@@ -23,6 +23,18 @@ vim.o.undodir = vim.fn.stdpath('cache') .. '/undo'
 vim.o.foldlevel = 1
 -- vim.o.autochdir = true
 
+-- Set list option to show hidden characters
+vim.opt.list = true
+vim.opt.listchars = {
+    tab = '»-', -- Tabs
+    trail = '␣', -- Trailing spaces
+    -- eol = '↲', -- End of line
+    extends = '»', -- Overflow characters that extend past the right of the screen
+    precedes = '«', -- Overflow characters that precede the beginning of the screen
+    nbsp = '%', -- Non-breaking space
+    space = '_' -- Space characters
+}
+
 -- disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
