@@ -38,5 +38,11 @@ return {
     },
     {
         'https://github.com/machakann/vim-sandwich',
-    }
+    },
+    {
+        'https://github.com/lambdalisue/gin.vim',
+        dependencies = {
+            'https://github.com/vim-denops/denops.vim',
+        },
+    },
 }

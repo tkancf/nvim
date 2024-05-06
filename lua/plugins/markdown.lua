@@ -1,13 +1,13 @@
 return {
     {
-        'https://github.com/at0h/bufpreview.vim',
+        'https://github.com/kat0h/bufpreview.vim',
         lazy = true,
         ft = 'markdown',
         dependencies = { 'vim-denops/denops.vim' },
         build = 'deno task prepare'
     },
     {
-        'https://github.com/attn/vim-maketable',
+        'https://github.com/mattn/vim-maketable',
         lazy = true,
         ft = 'markdown',
     },
@@ -19,8 +19,8 @@ return {
         config = function()
             vim.g.vim_markdown_folding_level = 2
             vim.g.vim_markdown_frontmatter = 1
-            -- vim.o.foldenable = false
             vim.g.vim_markdown_new_list_item_indent = 0
+            vim.g.vim_markdown_auto_insert_bullets = 0
         end
     },
     {
@@ -30,10 +30,10 @@ return {
         ft = "markdown",
         dependencies = {
             -- Required.
-            'https://github.com/vim-lua/plenary.nvim',
-            'https://github.com/rsh7th/nvim-cmp',
-            'https://github.com/vim-telescope/telescope.nvim',
-            'https://github.com/vim-treesitter/nvim-treesitter',
+            'https://github.com/nvim-lua/plenary.nvim',
+            'https://github.com/hrsh7th/nvim-cmp',
+            'https://github.com/nvim-telescope/telescope.nvim',
+            'https://github.com/nvim-treesitter/nvim-treesitter',
             -- see below for full list of optional dependencies 👇
         },
         opts = {
@@ -47,12 +47,43 @@ return {
                     name = "tkn",
                     path = "~/Dropbox/tkn",
                 },
+                {
+                    name = "tpn",
+                    path = "~/Dropbox/tpn",
+                },
             },
             completion = {
                 -- Set to false to disable completion.
                 nvim_cmp = true,
                 -- Trigger completion at 2 chars.
                 min_chars = 2,
+            },
+            -- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
+            -- way then set 'mappings = {}'.
+            mappings = {
+                -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+                ["gf"] = {
+                    action = function()
+                        return require("obsidian").util.gf_passthrough()
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
+                -- Toggle check-boxes.
+                ["<leader>ch"] = {
+                    action = function()
+                        return require("obsidian").util.toggle_checkbox()
+                    end,
+                    opts = { buffer = true },
+                },
+                -- Smart action depending on context, either follow link or toggle checkbox.
+                ["<cr>"] = {
+                    action = function()
+                        if require("obsidian").util.cursor_on_markdown_link(nil, nil, true) then
+                            return "<cmd>ObsidianFollowLink<CR>"
+                        end
+                    end,
+                    opts = { buffer = true, expr = true },
+                }
             },
             -- Either 'wiki' or 'markdown'.
             preferred_link_style = "markdown",
