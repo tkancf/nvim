@@ -3,7 +3,7 @@
 vim.o.encofing = 'utf-8'
 vim.scriptencoding = 'utf-8'
 vim.o.ambiwidth = 'single'
-vim.o.conceallevel = 1
+vim.o.conceallevel = 0
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2

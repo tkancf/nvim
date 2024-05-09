@@ -12,18 +12,6 @@ return {
         ft = 'markdown',
     },
     {
-        'https://github.com/preservim/vim-markdown',
-        require = { 'https://github.com/godlygeek/tabular' },
-        lazy = true,
-        ft = 'markdown',
-        config = function()
-            vim.g.vim_markdown_folding_level = 2
-            vim.g.vim_markdown_frontmatter = 1
-            vim.g.vim_markdown_new_list_item_indent = 0
-            vim.g.vim_markdown_auto_insert_bullets = 0
-        end
-    },
-    {
         "https://github.com/epwalsh/obsidian.nvim",
         version = "*", -- recommended, use latest release instead of latest commit
         lazy = true,
@@ -37,6 +25,9 @@ return {
             -- see below for full list of optional dependencies 👇
         },
         opts = {
+            ui = {
+                enable = true
+            },
             -- Base dir of Obsidian vault
             workspaces = {
                 {
@@ -169,14 +160,6 @@ return {
             vim.api.nvim_set_keymap('n', '<leader>ob', '<cmd>ObsidianBacklinks<cr>',
                 { noremap = true, silent = true }),
         },
-        ui = {
-            enable = true,
-            checkboxes = {
-                [" "] = { hl_group = "ObsidianTodo" },
-                ["x"] = { hl_group = "ObsidianDone" },
-                [">"] = { hl_group = "ObsidianRightArrow" },
-            },
-            bullets = { char = "-", hl_group = "ObsidianBullet" },
-        },
+
     },
 }
