@@ -6,6 +6,7 @@ local finders = require('telescope.finders')
 local conf = require('telescope.config').values
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
+local previewers = require('telescope.previewers') -- プレビューアをインポート
 
 -- モジュールテーブルを作成
 local M = {}
@@ -45,13 +46,14 @@ function M.open_markdown_by_title()
             results = titles,
             entry_maker = function(entry)
                 return {
-                    value = entry,
+                    value = entry.filepath, -- ここを直接ファイルパスの文字列に設定
                     display = entry.title,
                     ordinal = entry.title,
                 }
             end,
         }),
         sorter = conf.generic_sorter({}),
+        previewer = previewers.vim_buffer_cat.new({}), -- プレビューアを追加
         attach_mappings = function(prompt_bufnr, map)
             actions.select_default:replace(function()
                 local selection = action_state.get_selected_entry()
