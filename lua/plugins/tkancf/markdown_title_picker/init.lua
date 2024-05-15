@@ -58,7 +58,7 @@ function M.open_markdown_by_title()
             actions.select_default:replace(function()
                 local selection = action_state.get_selected_entry()
                 actions.close(prompt_bufnr)
-                vim.cmd('edit ' .. selection.value.filepath)
+                vim.cmd('edit ' .. selection.value) -- 修正: selection.value を直接使用
             end)
             return true
         end,

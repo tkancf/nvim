@@ -35,12 +35,12 @@ return {
                     path = "~/Dropbox/tkm",
                 },
                 {
-                    name = "tkn",
-                    path = "~/Dropbox/tkn",
+                    name = "private",
+                    path = "~/Dropbox/private",
                 },
                 {
-                    name = "tpn",
-                    path = "~/Dropbox/tpn",
+                    name = "project",
+                    path = "~/Dropbox/project",
                 },
             },
             completion = {
