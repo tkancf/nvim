@@ -85,5 +85,12 @@ return {
             vim.api.nvim_set_keymap('', 'g#', '<Plug>(asterisk-gz#)', opts)
         end
     },
-
+    {
+        'https://github.com/tani/dmacro.nvim',
+        config = function()
+            require('dmacro').setup({
+                dmacro_key = '<C-t>'
+            })
+        end
+    },
 }
