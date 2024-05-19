@@ -1,6 +1,6 @@
 -- Basic
 -- encoding
-vim.o.encofing = 'utf-8'
+vim.o.encoding = 'utf-8'
 vim.scriptencoding = 'utf-8'
 vim.o.ambiwidth = 'single'
 vim.o.conceallevel = 0
@@ -21,7 +21,9 @@ vim.opt.clipboard:append { 'unnamedplus' }
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath('cache') .. '/undo'
 vim.o.foldlevel = 1
--- vim.o.autochdir = true
+vim.o.conceallevel = 2
+vim.o.autochdir = false
+vim.o.modeline = true
 
 -- Set list option to show hidden characters
 vim.opt.list = true
@@ -32,7 +34,7 @@ vim.opt.listchars = {
     extends = '»', -- Overflow characters that extend past the right of the screen
     precedes = '«', -- Overflow characters that precede the beginning of the screen
     nbsp = '%', -- Non-breaking space
-    space = '_' -- Space characters
+    -- space = '_' -- Space characters
 }
 
 -- disable netrw
