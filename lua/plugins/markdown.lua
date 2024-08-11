@@ -1,12 +1,5 @@
 return {
     {
-        'https://github.com/kat0h/bufpreview.vim',
-        lazy = true,
-        ft = 'markdown',
-        dependencies = { 'vim-denops/denops.vim' },
-        build = 'deno task prepare'
-    },
-    {
         'https://github.com/mattn/vim-maketable',
         lazy = true,
         ft = 'markdown',
