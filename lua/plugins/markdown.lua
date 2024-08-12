@@ -37,14 +37,6 @@ return {
             -- Base dir of Obsidian vault
             workspaces = {
                 {
-                    name = "tkm",
-                    path = "~/Dropbox/tkm",
-                },
-                {
-                    name = "project",
-                    path = "~/Dropbox/project",
-                },
-                {
                     name = "Memo",
                     path = "~/Dropbox/Memo",
                 },
@@ -167,5 +159,11 @@ return {
                 { noremap = true, silent = true }),
         },
 
+    },
+    {
+        "https://github.com/arakkkkk/marktodo.nvim",
+        config = function()
+            require("marktodo").setup()
+        end,
     },
 }
