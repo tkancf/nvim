@@ -40,6 +40,14 @@ return {
                     name = "Memo",
                     path = "~/Dropbox/Memo",
                 },
+                {
+                    name = "Note",
+                    path = "~/Dropbox/Note",
+                },
+                {
+                    name = "note.tkancf.com",
+                    path = "~/src/github.com/tkancf/note.tkancf.com/content",
+                },
             },
             completion = {
                 -- Set to false to disable completion.

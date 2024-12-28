@@ -12,16 +12,14 @@ return {
     },
     config = function()
         local wk = require("which-key")
-        wk.register({
-            ["<leader>"] = {
-                name = "Telescope",
-                [";"] = { "<cmd>lua require('telescope.builtin').command_history()<cr>", "Command history" },
-                f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files" },
-                g = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep" },
-                b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers" },
-                h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help Tags" },
-                u = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent Files" },
-            }
+        wk.add({
+            { "<leader>",  group = "Telescope" },
+            { "<leader>;", "<cmd>lua require('telescope.builtin').command_history()<cr>", desc = "Command history" },
+            { "<leader>b", "<cmd>lua require('telescope.builtin').buffers()<cr>",         desc = "Buffers" },
+            { "<leader>f", "<cmd>lua require('telescope.builtin').find_files()<cr>",      desc = "Find Files" },
+            { "<leader>g", "<cmd>lua require('telescope.builtin').live_grep()<cr>",       desc = "Live Grep" },
+            { "<leader>h", "<cmd>lua require('telescope.builtin').help_tags()<cr>",       desc = "Help Tags" },
+            { "<leader>u", "<cmd>lua require('telescope.builtin').oldfiles()<cr>",        desc = "Recent Files" },
         })
     end
 }
